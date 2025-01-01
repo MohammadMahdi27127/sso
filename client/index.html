@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>صفحه ورود</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .login-container {
+            background-color: white;
+            padding: 40px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        .login-container h2 {
+            margin-bottom: 20px;
+        }
+        .login-container input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .login-container button {
+            width: 80px;
+            padding: 10px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .login-container button:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+
+<div class="login-container">
+    <h2>ورود به حساب کاربری</h2>
+    <p id="username"></p>
+    <input type="tel" id="phone" placeholder="شماره تلفن خود را وارد کنید" required>
+    <button onclick="login()">ورود</button>
+</div>
+
+<script>
+    // تابع برای استخراج نام کاربری از URL
+    function getUsernameFromURL() {
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get('username'); // فرض بر این است که نام کاربری در URL به صورت ?username=yourUsername قرار دارد
+    }
+
+    // نمایش نام کاربری در صفحه
+    document.getElementById('username').innerText = 'نام کاربری: ' + getUsernameFromURL();
+
+    function login() {
+        const phoneInput = document.getElementById('phone').value;
+        const phonePattern = /^[0-9]{11}$/; // الگوی شماره تلفن (10 رقم)
+
+        if (phonePattern.test(phoneInput)) {
+            alert('ورود موفقیت آمیز!');
+            // اینجا می‌توانید کدهای مربوط به ورود را اضافه کنید
+        } else {
+            alert('لطفاً یک شماره تلفن معتبر وارد کنید.');
+        }
+    }
+</script>
+
+</body>
+</html>
