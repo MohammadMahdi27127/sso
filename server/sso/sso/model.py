@@ -18,13 +18,13 @@ class SMS(models.Model):
 class Token(models.Model):
     id=models.AutoField(primary_key=True,null=False)
     token = models.CharField(max_length=5,null=False)
-    soruse=models.CharField(null=False)
+    soruse=models.ForeignKey(SMS,null=False)
     date = models.DateTimeField(auto_now_add=True)
-    mobile = models.IntegerField(null=False)
+    mobile = models.ForeignKey(SMS,null=False)
 
 
 class User(models.Model):
     id=models.AutoField(primary_key=True,null=False)
-    soruse=models.CharField(null=False)
+    soruse=models.ForeignKey(SMS,null=False)
     date = models.DateTimeField(auto_now_add=True)
 
