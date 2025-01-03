@@ -1,20 +1,8 @@
 from rest_framework import serializers
-from .model import SMS, User, Token
-
+from .models import SMS
 
 class SMSSerializer(serializers.ModelSerializer):
     class Meta:
         model = SMS
-        fields = ['mobile', 'message', 'sorucee', 'date']  # اضافه کردن فیلدهای جدید
+        fields = ['mobile', 'message', 'source', 'date']  # فیلدهای مدل SMS
         read_only_fields = ['message', 'date']  # توکن و تاریخ فقط برای خواندن
-
-class TokenSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Token
-        read_only_fields = ['date', 'sorucee','token']
-
-
-class UserSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        read_only_fields = ['sorucee','date']

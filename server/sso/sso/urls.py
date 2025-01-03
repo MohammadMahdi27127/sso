@@ -17,11 +17,13 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from django.urls import path
+from django.urls import path
 from .Views import  create_sms, verify_message
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('create_sms/', create_sms, name='create_sms'),
-    path('verify_token/', verify_message, name='verify_token'),
+    path('verify_token/', verify_message, name='verify_message'),
 
 ]
