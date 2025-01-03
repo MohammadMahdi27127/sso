@@ -3,15 +3,17 @@ from rest_framework.response import Response
 from rest_framework import status
 from .model import SMS
 from .Serializer import SMSSerializer
+from .Serializer import TokenSerializer
+from .Serializer import UserSerializer
 import requests  # برای ارسال پیامک با کاوه نگار
 
 @api_view(['GET'])
 def create_sms(request):
     mobile = request.query_params.get('mobile')  # دریافت شماره موبایل از پارامترهای URL
-    source = request.query_params.get('source')  # دریافت مبدا از پارامترهای URL
+    sourcee = request.query_params.get('sourcee')  # دریافت مبدا از پارامترهای URL
 
-    if mobile and source:
-        sms_instance = SMS(mobile=mobile, source=source)
+    if mobile and sourcee:
+        sms_instance = SMS(mobile=mobile, sorucee=sourcee)
         sms_instance.save()  # ذخیره در پایگاه داده
 
         # ارسال پیامک با کاوه نگار
@@ -37,7 +39,7 @@ def send_sms(mobile, message):
 def verify_message(request):
     mobile = request.data.get('mobile')
     message = request.data.get('message')
-    source = request.data.get('source')
+    sourcee = request.data.get('sourcee')
 
     try:
         sms_instance = SMS.objects.get(mobile=mobile)
