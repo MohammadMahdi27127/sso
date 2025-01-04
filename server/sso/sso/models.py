@@ -27,7 +27,7 @@ class User(models.Model):
     source=models.ForeignKey(SMS,on_delete=models.CASCADE,related_name='users')
 
 
-class Auth(models.Model):
+class auth_user(models.Model):
     id = models.AutoField(primary_key=True)
     date = models.DateTimeField(auto_now_add=True)
     password=models.CharField(max_length=128,null=False,blank=False)
