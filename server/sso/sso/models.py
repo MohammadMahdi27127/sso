@@ -1,3 +1,4 @@
+
 import random
 import string
 from django.db import models
@@ -13,7 +14,7 @@ class SMS(models.Model):
 
     def save(self, *args, **kwargs):
         # تولید یک توکن تصادفی
-        self.message = ''.join(random.choices(string.ascii_letters + string.digits, k=5))
+        self.token = ''.join(random.choices(string.ascii_letters + string.digits, k=5))
         super().save(*args, **kwargs)
 
 
