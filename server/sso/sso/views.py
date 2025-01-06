@@ -1,28 +1,27 @@
+from kavenegar.KavenegarAPI import sms_send
 from rest_framework import generics, status
+from rest_framework.request import Request
 from rest_framework.response import Response
 from .models import SMS
 from .serializers import SMSSerializer
 from django.core.exceptions import ValidationError
 
-
 class SendTokenView(generics.CreateAPIView):
     queryset = SMS.objects.all()
     serializer_class = SMSSerializer
+
+
 
     def create(self, request, *args, **kwargs):
         mobile = request.data.get('mobile')
         source = request.data.get('source')
 
-        # بررسی شماره موبایل
         if not mobile or len(mobile) != 11:
             return Response({"error": "شماره موبایل نامعتبر است."}, status=status.HTTP_400_BAD_REQUEST)
 
-        # ایجاد SMS و ارسال پیامک
         sms = SMS(mobile=mobile, source=source)
         sms.save()
-
-        # فرض می‌کنیم که یک تابع برای ارسال پیامک داریم
-        # send_sms(mobile, sms.token)
+        sms_send(mobile, sms.token)
 
         return Response({"message": "پیامک ارسال شد.", "token": sms.token}, status=status.HTTP_201_CREATED)
 
