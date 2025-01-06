@@ -16,10 +16,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from .views import SendTokenView ,VerifyTokenView
+from .views import SendTokenView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('send/', SendTokenView.as_view(), name='send-token'),
-    path('verify-token/', VerifyTokenView.as_view(), name='verify-token')
+    # path('verify-token/', VerifyTokenView.as_view(), name='verify-token')
 ]
