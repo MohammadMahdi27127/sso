@@ -4,4 +4,4 @@ from .models import SMS
 class SMSSerializer(serializers.ModelSerializer):
     class Meta:
         model = SMS
-        fields = ['id', 'mobile', 'token']
+        fields = [ 'mobile']

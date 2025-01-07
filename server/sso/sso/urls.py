@@ -17,7 +17,12 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
+from sso.views import create_phone_number
+
 urlpatterns = [
     path('admin/', admin.site.urls),
-    ]
+
+    path('', create_phone_number, name='create-phone-number'),
+]
+
 
