@@ -17,12 +17,12 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from sso.views import create_mobile
+from sso.views import create_mobile,get_token
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-
     path('', create_mobile, name='create-phone-number'),
+    path('sms/', get_token, name='get_sms_data'),
 ]
 
 
