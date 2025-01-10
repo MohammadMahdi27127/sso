@@ -16,14 +16,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from django.urls import path
-from django.urls import path
-from .Views import  create_sms, verify_message
 
+from sso.views import create_mobile,get_token
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('create_sms/', create_sms, name='create_sms'),
-    path('verify_token/', verify_message, name='verify_message'),
-
+    path('create_mobile/', create_mobile, name='create-phone-number'),
+    path('sms/', get_token, name='get_sms_data'),
 ]
+
+

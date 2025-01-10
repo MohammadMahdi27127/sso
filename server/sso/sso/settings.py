@@ -11,9 +11,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
-from dotenv import load_dotenv
-import  os
-load_dotenv()
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -22,7 +20,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-5(7xm0qduk!-gjuz!o@z&&(ese7&^!-d)#1hg*xvev=!7w9469'
+SECRET_KEY = 'django-insecure-+46_0p#(#dl@$c^ubcpp7b21bojt06xs06n$y4p+(oq6@cls)s'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -41,11 +39,13 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'sso',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -80,11 +80,11 @@ WSGI_APPLICATION = 'sso.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'sso',
-        'USER': 'root',
-        'PASSWORD': 'jcAetE0zOzd9grEdw5UFgwWK',
-        'HOST': 'kazbek.liara.cloud',
-        'PORT': '33786',
+        'NAME': 'sso',  # نام پایگاه داده
+        'USER': 'root',        # نام کاربری
+        'PASSWORD': 'jcAetE0zOzd9grEdw5UFgwWK',    # رمز عبور
+        'HOST': 'kazbek.liara.cloud',            # آدرس میزبان (localhost یا IP)
+        'PORT': '33786',                 # پورت (پورت پیش‌فرض MySQL)
     }
 }
 
@@ -130,27 +130,19 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+CORS_ALLOW_ALL_ORIGINS = True  # برای اجازه همه منابع (غیر ایمن)
+# یا
 
-
-# S3 Settings
-LIARA_ENDPOINT    = os.getenv("https://storage.c2.liara.space")
-LIARA_BUCKET_NAME = os.getenv("django-bucet-aboozar")
-LIARA_ACCESS_KEY  = os.getenv("40odoenglaaa8g3v")
-LIARA_SECRET_KEY  = os.getenv("67d2a8f5-d92b-4532-a7a9-4fa0d2f1b381")
-
-# S3 Settings Based on AWS (optional)
-AWS_ACCESS_KEY_ID       = LIARA_ACCESS_KEY
-AWS_SECRET_ACCESS_KEY   = LIARA_SECRET_KEY
-AWS_STORAGE_BUCKET_NAME = LIARA_BUCKET_NAME
-AWS_S3_ENDPOINT_URL     = LIARA_ENDPOINT
-AWS_S3_REGION_NAME      = 'us-east-1'
-
-# Django-storages configuration
-STORAGES = {
-  "default": {
-      "BACKEND": "storages.backends.s3.S3Storage",
-  },
-  "staticfiles": {
-      "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
-  },
-}
+CORS_ALLOWED_ORIGINS = [
+    "http://127.0.0.1:8080",  # آدرس منبع خود را اینجا قرار دهید
+    "http://localhost:8080",
+    "http://192.168.1.2:8080",  # اگر از این آدرس استفاده می‌کنید
+]
+CORS_ALLOW_METHODS = [
+    "GET",
+    "POST",
+    "PUT",
+    "PATCH",
+    "DELETE",
+    "OPTIONS"  # اضافه کردن OPTIONS برای درخواست‌های Preflight
+]
