@@ -8,16 +8,13 @@ from .serializers import SMSSerializer,SMSDisplaySerializer
 
 @api_view(['POST'])
 def create_mobile(request):
-    serializer = (SMSSerializer(data=request.data) )
+    # تغییر 'phone' به 'mobile' برای تطابق با مدل
+    serializer = SMSSerializer(data={'mobile': request.data.get('phone')})
     if serializer.is_valid():
         serializer.save()
-        mobile = serializer.validated_data['mobile']
-        # sms_send(mobile)
-
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
 @api_view(['GET'])
 def get_token(request):
   sms_get = SMS.objects.all()

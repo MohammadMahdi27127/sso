@@ -5,7 +5,7 @@ from .models import SMS
 class SMSSerializer(serializers.ModelSerializer):
     class Meta:
         model = SMS
-        fields = [ 'mobile']
+        fields = ['mobile', 'source', 'message', 'token']  # اضافه کردن فیلدهای دیگر در صورت نیاز
 
 
 

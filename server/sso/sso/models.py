@@ -6,15 +6,18 @@ from django.db import models
 
 class SMS(models.Model):
     id = models.AutoField(primary_key=True)
-    mobile = models.CharField(max_length=11)
+    mobile = models.CharField(max_length=15)  # تغییر به CharField
     source = models.CharField(max_length=150)
     date = models.DateTimeField(auto_now_add=True)
-    message = models.TextField()  # نیازی به max_length در TextField نیست
+    message = models.TextField()
     token = models.CharField(max_length=5)
 
     def save(self, *args, **kwargs):
         # تولید یک توکن تصادفی
-        self.token = ''.join(random.choices(string.ascii_letters + string.digits, k=5))
+        while True:
+            self.token = ''.join(random.choices(string.ascii_letters + string.digits, k=5))
+            if not SMS.objects.filter(token=self.token).exists():
+                break
         super().save(*args, **kwargs)
 
 
