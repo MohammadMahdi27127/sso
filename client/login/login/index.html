@@ -50,7 +50,7 @@
 			if (phonePattern.test(phoneInput)) {
 				// Call your API to validate the phone number
 				$.ajax({
-					url: 'http://127.0.0.1:8080/api/create_mobile/', // Replace with your API endpoint
+					url: ' http://127.0.0.1:8000/create_mobile/',
 					type: 'POST',
 					data: { phone: phoneInput },
 					success: function(response) {
@@ -107,7 +107,7 @@
 			const codeInput = document.getElementById('code').value;
 			// Call your API to verify the code
 			$.ajax({
-				url: 'http://127.0.0.1:8080/api/create_mobile/', // Replace with your API endpoint for verification
+				url: ' http://127.0.0.1:8000/create_mobile/',
 				type: 'POST',
 				data: { code: codeInput },
 				success: function(response) {
