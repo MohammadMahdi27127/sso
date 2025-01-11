@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>قالب فرم چند مرحله ای همراه با نوار پیشرفت</title>
+	<link rel="stylesheet" href="css/reset.min.css">
+	<link type="text/css" href="css/style.css" rel="stylesheet" />
+</head>
+<body>
+
+	<form id="msform">
+
+		<ul id="progressbar">
+			<li class="active">شماره موبایل</li>
+			<li>وارد کردن کد</li>
+			<li>ورود</li>
+		</ul>
+
+		<fieldset>
+			<h2 class="fs-title">ورود به حساب کاربری</h2>
+			<p id="username"></p>
+			<input type="tel" name="phone" id="phone" placeholder="شماره موبایل..." pattern="[0-9]{11}" required />
+			<input type="button" name="next" class="next action-button" value="ارسال پیامک" onclick="login()" id="fieldCodeOpen" />
+		</fieldset>
+
+		<fieldset>
+			<h2 class="fs-title">کد ارسال شد...</h2>
+			<p id="username2"></p>
+			<input type="text" name="code" id="code" placeholder="کد را وارد کنید..." required/>
+			<input type="button" name="previous" id="back" class="previous action-button" value="ویرایش شماره" onclick="goBack()" />
+			<input type="button" name="next" id="next" class="next submit action-button" value="ورود" onclick="verifyCode()" />
+		</fieldset>
+		
+	</form>
+
+	
+	<script src="js/jquery.easing.min.js" type="text/javascript"></script>
+	<script src="js/scripts.js"></script> <!-- Include the separate JavaScript file -->
+	<script type="module" src="js/scripts.js"></script>
+</body>
+</html>
