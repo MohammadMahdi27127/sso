@@ -23,4 +23,3 @@ def get_token(request):
   sms_get = SMS.objects.all()
   serializer = SMSDisplaySerializer(sms_get, many=True)
   return Response(serializer.data, status=status.HTTP_200_OK)
-
