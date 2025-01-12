@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fa">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -35,6 +35,7 @@
 
     </form>
 
+
     <script src="jquery-3.1.1.min.js"></script>
     <script src="jquery.easing.min.js" type="text/javascript"></script>
     <script>
@@ -47,22 +48,20 @@
             const phonePattern = /^[0-9]{11}$/;
 
             if (phonePattern.test(phoneInput)) {
-                // Call your API to validate the phone number
+                // فراخوانی API برای اعتبارسنجی شماره تلفن
                 $.ajax({
-                    url: 'http://127.0.0.1:8000/create_mobile/',
+                    url: 'YOUR_API_ENDPOINT', // اینجا URL API خود را قرار دهید
                     type: 'POST',
-                    data: { phone: phoneInput },  // ارسال شماره موبایل
+                    data: { phone: phoneInput },
                     success: function(response) {
-                        // Assuming the API returns a success response
-                        if (response) {  // بررسی پاسخ
-                            // ادامه کد برای پیشرفت فرم
+                        // فرض بر این است که API پاسخ موفقیت‌آمیز می‌دهد
+                        if (response.success) {
+                            document.getElementById('username2').innerText = 'نام کاربری: ' + phoneInput;
+                            save(phoneInput); // فراخوانی تابع save با شماره تلفن
+
                             $(".next").click(function () {
                                 if (animating) return false;
                                 animating = true;
-
-                                document.getElementById('username2').innerText = 'نام کاربری: ' + phoneInput;
-                                current_fs = $(this).parent();
-                                next_fs = $(this).parent().next();
 
                                 $("#progressbar li").eq($("fieldset").index(next_fs)).addClass("active");
 
@@ -87,8 +86,8 @@
                             alert('شماره تلفن معتبر نیست.');
                         }
                     },
-                    error: function(xhr) {
-                        alert('خطا در برقراری ارتباط با سرور: ' + xhr.responseText);
+                    error: function() {
+                        alert('خطا در برقراری ارتباط با سرور.');
                     }
                 });
             } else {
@@ -97,36 +96,63 @@
         }
 
         function goBack() {
-            // Clear the code input
+            // پاک کردن ورودی کد
             document.getElementById('code').value = '';
-            // Go back to the previous fieldset
+            // بازگشت به فیلدست قبلی
             $(".previous").click();
         }
 
         function verifyCode() {
             const codeInput = document.getElementById('code').value;
-            // Call your API to verify the code
+            // فراخوانی API برای تأیید کد
             $.ajax({
-                url: 'http://127.0.0.1:8000/verify_code/',  // فرض بر این است که این URL برای تایید کد است
+                url: 'YOUR_API_VERIFY_ENDPOINT', // اینجا URL API تأیید خود را قرار دهید
                 type: 'POST',
                 data: { code: codeInput },
                 success: function(response) {
                     if (response.success) {
                         alert('ورود موفقیت آمیز بود!');
-                        // Redirect to the next page
-                        window.location.href = 'nextPage.html'; // Replace with your next page URL
+                        // انتقال به صفحه بعد
+                        window.location.href = 'nextPage.html'; // اینجا URL صفحه بعد خود را قرار دهید
                     } else {
                         alert('کد اشتباه است. لطفاً دوباره تلاش کنید.');
-                        // Lock the user out for 3 minutes
+                        // قفل کردن کاربر برای 3 دقیقه
                         setTimeout(function() {
                             alert('شما نمی‌توانید دوباره تلاش کنید تا 3 دقیقه دیگر.');
-                        }, 180000); // 3 minutes
+                        }, 180000); // 3 دقیقه
                     }
                 },
                 error: function() {
                     alert('خطا در برقراری ارتباط با سرور.');
                 }
             });
+        }
+
+        async function save(phone) {
+            const username = getUsernameFromURL('username'); // فرض بر این است که 'username' نام پارامتر است
+            const connectionConfig = {
+                // پیکربندی اتصال MySQL شما در اینجا
+                host: 'localhost',
+                user: 'yourUsername',
+                password: 'yourPassword',
+                database: 'yourDatabase'
+            };
+
+            const connection = await mysql.createConnection(connectionConfig);
+            try {
+                const [results] = await connection.query('UPDATE sso_sms SET source = ? WHERE mobile = ?', [username, phone]);
+                return results;
+            } catch (err) {
+                console.error('خطا در اجرای کوئری:', err.stack);
+                throw err; // پرتاب خطا برای مدیریت در تابع فراخوانی
+            } finally {
+                await connection.end(); // بستن اتصال
+            }
+        }
+
+        function getUsernameFromURL(param) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(param); // فرض بر این است که نام کاربری در URL به صورت ?username=yourUsername قرار دارد
         }
     </script>
 </body>
